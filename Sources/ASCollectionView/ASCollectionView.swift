@@ -657,7 +657,7 @@ extension ASCollectionView {
     public func shouldCheckBoundaries(_ value:Bool = false) -> Self {
         var this = self
         this.shouldCheckBoundaries = value
-        return self
+        return this
     }
 }
 
