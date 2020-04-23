@@ -101,7 +101,9 @@ public struct ASCollectionView<SectionID: Hashable>: UIViewControllerRepresentab
 
 	private var shouldRecreateLayoutOnStateChange: Bool = false
 	private var shouldAnimateRecreatedLayoutOnStateChange: Bool = false
-
+    
+    private var shouldCheckBoundaries:Bool = true
+    
 	// MARK: Environment variables
 
 	// SwiftUI environment
@@ -166,6 +168,8 @@ public struct ASCollectionView<SectionID: Hashable>: UIViewControllerRepresentab
 	{
 		var parent: ASCollectionView
 		var delegate: ASCollectionViewDelegate?
+        
+        var shouldCheckBoundaries: Bool = true
 
 		weak var collectionViewController: AS_CollectionViewController?
 
@@ -648,11 +652,24 @@ public struct ASCollectionView<SectionID: Hashable>: UIViewControllerRepresentab
 // MARK: OnScroll/OnReachedBoundary support
 
 @available(iOS 13.0, *)
+extension ASCollectionView {
+    
+    func shouldCheckBoundaries(_ value:Bool = false) -> Self {
+        var this = self
+        this.shouldCheckBoundaries = value
+        return self
+    }
+}
+
+@available(iOS 13.0, *)
 extension ASCollectionView.Coordinator
 {
 	public func scrollViewDidScroll(_ scrollView: UIScrollView)
 	{
 		parent.onScrollCallback?(scrollView.contentOffset, scrollView.contentSizePlusInsets)
+        guard parent.shouldCheckBoundaries else {
+            return
+        }
 		checkIfReachedBoundary(scrollView)
 	}
 
