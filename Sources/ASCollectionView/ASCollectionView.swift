@@ -654,7 +654,7 @@ public struct ASCollectionView<SectionID: Hashable>: UIViewControllerRepresentab
 @available(iOS 13.0, *)
 extension ASCollectionView {
     
-    func shouldCheckBoundaries(_ value:Bool = false) -> Self {
+    public func shouldCheckBoundaries(_ value:Bool = false) -> Self {
         var this = self
         this.shouldCheckBoundaries = value
         return self
